@@ -1,5 +1,8 @@
 plugins {
     id "com.android.application"
+    // START: FlutterFire Configuration
+    id 'com.google.gms.google-services'
+    // END: FlutterFire Configuration
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -9,6 +12,14 @@ def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
+    }
+}
+
+def apikeyProperties = new Properties()
+def apikeyPropertiesFile = rootProject.file('apikey.properties')
+if (apikeyPropertiesFile.exists()) {
+    apikeyPropertiesFile.withReader('UTF-8') { reader ->
+        apikeyProperties.load(reader)
     }
 }
 
@@ -49,6 +60,10 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        // api keys
+        buildConfigField("String", "FB_APP_ID", apikeyProperties['FB_APP_ID'])
+        buildConfigField("String", "FB_CLIENT_TOKEN", apikeyProperties['FB_CLIENT_TOKEN'])
     }
 
     buildTypes {
