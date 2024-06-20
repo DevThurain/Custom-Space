@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,6 +48,22 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void _loginGoogle() async {
+    const List<String> scopes = <String>[
+      'email',
+    ];
+
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: scopes,
+    );
+
+    try {
+      await googleSignIn.signIn();
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _loginFB,
+        onPressed: _loginGoogle,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.

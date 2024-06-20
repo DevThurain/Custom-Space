@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '456232339408',
     projectId: 'photo-space-77cc7',
     storageBucket: 'photo-space-77cc7.appspot.com',
+    androidClientId: '456232339408-59lpkk6npov2sbc3uht2tu9b8iebgfus.apps.googleusercontent.com',
+    iosClientId: '456232339408-6ka8ogb41ego8a6345g7rj18cvn0ak92.apps.googleusercontent.com',
     iosBundleId: 'com.thurainx.photoSpace',
   );
 

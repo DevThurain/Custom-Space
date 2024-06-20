@@ -25,6 +25,12 @@
     </array>
     <!-- fb auth end-->
 
+	<!-- google auth-->
+	
+	<!-- google end-->
+
+
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
