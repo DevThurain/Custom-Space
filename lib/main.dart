@@ -2,14 +2,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_space/firebase_options.dart';
+import 'package:photo_space/state/auth/providers/auth_state_provider.dart';
+import 'package:photo_space/state/auth/providers/is_logged_in_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,17 +31,10 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends ConsumerWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
   void _loginFB() async {
     final LoginResult result = await FacebookAuth.instance.login(permissions: ['email']);
@@ -71,28 +67,39 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Consumer(builder: (context, ref, child) {
+              var isUserLoggedIn = ref.watch(isLoggedInProvider);
+              return Column(
+                children: [
+                  Text(isUserLoggedIn ? 'Congrat! You are logged in.' : 'Still Not Logged In.'),
+                  const SizedBox(height: 16),
+                  isUserLoggedIn
+                      ? TextButton(
+                          onPressed: () {
+                            ref.watch(authStateProvider.notifier).logOut();
+                          },
+                          child: const Text('Log Out'))
+                      : const SizedBox(),
+                ],
+              );
+            }),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _loginGoogle,
+        onPressed: () {
+          ref.read(authStateProvider.notifier).loginWithGoogle();
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
