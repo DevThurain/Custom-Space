@@ -77,4 +77,5 @@ class Authenticator {
       return AuthResult.failure;
     }
   }
+
 }
