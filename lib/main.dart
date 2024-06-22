@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_space/firebase_options.dart';
 import 'package:photo_space/state/auth/providers/auth_state_provider.dart';
 import 'package:photo_space/state/auth/providers/is_logged_in_provider.dart';
+import 'package:photo_space/view/components/loading/alt_loading_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -98,7 +99,8 @@ class MyHomePage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(authStateProvider.notifier).loginWithGoogle();
+          AltLoadingScreen.instance().show(context: context, text: "Loading ...");
+          // ref.read(authStateProvider.notifier).loginWithGoogle();
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
