@@ -1,12 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_space/firebase_options.dart';
-import 'package:photo_space/state/auth/providers/auth_state_provider.dart';
+import 'package:photo_space/router/app_router.dart';
 import 'package:photo_space/state/auth/providers/is_logged_in_provider.dart';
-import 'package:photo_space/view/components/loading/alt_loading_screen.dart';
+import 'package:photo_space/state/providers/loading_provider.dart';
+import 'package:photo_space/view/components/loading/loading_screen.dart';
+import 'package:photo_space/view/constants/app_theme.dart';
+import 'package:photo_space/view/pages/home/home_page.dart';
+import 'package:photo_space/view/pages/login/login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,94 +19,39 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+        title: 'Flutter Demo',
+        theme: AppTheme.customLightTheme,
+        darkTheme: AppTheme.customDarkTheme,
+        home: Consumer(
+          builder: (context, ref, child) {
+            ref.listen(loadingProvider, (_, isLoading) {
+              if (isLoading) {
+                LoadingScreen.instance().show(context: context, text: "Loading ...");
+              } else {
+                LoadingScreen.instance().hide();
+              }
+            });
+            if (ref.watch(isLoggedInProvider)) {
+              return const HomePage();
+            }
+            return const LoginPage();
+          },
+        ));
   }
-}
-
-class MyHomePage extends ConsumerWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  void _loginFB() async {
-    final LoginResult result = await FacebookAuth.instance.login(permissions: ['email']);
-    // by default we request the email and the public profile
-    // or FacebookAuth.i.login()
-    if (result.status == LoginStatus.success) {
-      // you are logged
-      final AccessToken accessToken = result.accessToken!;
-      print("result success:${accessToken.tokenString}");
-    } else {
-      print(result.status);
-      print(result.message);
-    }
-  }
-
-  void _loginGoogle() async {
-    const List<String> scopes = <String>[
-      'email',
-    ];
-
-    GoogleSignIn googleSignIn = GoogleSignIn(
-      scopes: scopes,
-    );
-
-    try {
-      await googleSignIn.signIn();
-    } catch (error) {
-      debugPrint(error.toString());
-    }
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Consumer(builder: (context, ref, child) {
-              var isUserLoggedIn = ref.watch(isLoggedInProvider);
-              return Column(
-                children: [
-                  Text(isUserLoggedIn ? 'Congrat! You are logged in.' : 'Still Not Logged In.'),
-                  const SizedBox(height: 16),
-                  isUserLoggedIn
-                      ? TextButton(
-                          onPressed: () {
-                            ref.watch(authStateProvider.notifier).logOut();
-                          },
-                          child: const Text('Log Out'))
-                      : const SizedBox(),
-                ],
-              );
-            }),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AltLoadingScreen.instance().show(context: context, text: "Loading ...");
-          // ref.read(authStateProvider.notifier).loginWithGoogle();
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
+  // home: Consumer(builder: (context, ref, child) {
+  //   ref.listen(loadingProvider, (_, isLoading) {
+  //     if (isLoading) {
+  //       LoadingScreen.instance().show(context: context, text: "Loading ...");
+  //     } else {
+  //       LoadingScreen.instance().hide();
+  //     }
+  //   });
+  //   return const LoginPage();
+  // }),
 }
