@@ -18,11 +18,12 @@ class HomePage extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
-          Consumer(
-            builder: (context,ref,child) {
-              return IconButton(onPressed: ref.read(authStateProvider.notifier).logOut, icon: const Icon(Icons.logout));
-            }
-          )
+          Consumer(builder: (context, ref, child) {
+            return IconButton(
+              onPressed: ref.read(authStateProvider.notifier).logOut,
+              icon: const Icon(Icons.logout),
+            );
+          })
         ],
       ),
     );
