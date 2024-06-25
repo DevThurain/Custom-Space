@@ -1,21 +1,23 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:photo_space/router/app_router.dart';
 import 'package:photo_space/state/auth/providers/auth_state_provider.dart';
+import 'package:photo_space/state/auth/providers/is_logged_in_provider.dart';
 import 'package:photo_space/state/providers/loading_provider.dart';
-import 'package:photo_space/view/components/loading/loading_screen.dart';
 import 'package:photo_space/view/constants/app_colors.dart';
 import 'package:photo_space/view/constants/strings.dart';
+import 'package:photo_space/view/pages/based/based_page.dart';
+import 'package:photo_space/view/pages/home/home_page.dart';
+import 'package:photo_space/view/pages/login/widgets/svg_icon_button.dart';
 
 @RoutePage()
-class LoginPage extends ConsumerWidget {
+class LoginPage extends BasedPage {
   static const routeName = 'login_page';
-  const LoginPage({super.key});
+  LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-
+  Widget buildContent(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -31,7 +33,7 @@ class LoginPage extends ConsumerWidget {
             SvgIconButton(
               text: 'Sign In With Facebook',
               svgPath: 'assets/svgs/ic_facebook.svg',
-              onTap: ref.read(authStateProvider.notifier).logOut,
+              onTap: () {},
             ),
             SvgIconButton(
               text: 'Sign In With Google',
@@ -45,48 +47,24 @@ class LoginPage extends ConsumerWidget {
       ),
     );
   }
-}
-
-class SvgIconButton extends StatelessWidget {
-  final String svgPath;
-  final String text;
-  final double iconSize;
-  final double iconSpace;
-  final VoidCallback onTap;
-  const SvgIconButton({
-    super.key,
-    required this.svgPath,
-    required this.text,
-    this.iconSize = 30,
-    this.iconSpace = 15,
-    required this.onTap,
-  });
 
   @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        minimumSize: const MaterialStatePropertyAll(Size(210, 45)),
-        elevation: const MaterialStatePropertyAll(0),
-        shape: MaterialStatePropertyAll(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-            side: BorderSide(color: AppColors.seedColor),
-          ),
-        ),
-      ),
-      onPressed: onTap,
-      child: SizedBox(
-        width: 210,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SvgPicture.asset(svgPath, width: iconSize),
-            SizedBox(width: iconSpace),
-            Text(text),
-          ],
-        ),
-      ),
-    );
+  void buildListeners(BuildContext context, WidgetRef ref) {
+    ref.listen(loadingProvider, (_, isLoading) {
+      if (isLoading) {
+        showLoadingDailog(context);
+      } else {
+        hideLoadingDialog(context);
+      }
+    });
+
+    ref.listen(isLoggedInProvider, (_, isLoggedIn) async {
+      if (isLoggedIn) {
+        AutoRouter.of(context).push(const HomeRoute());
+      }
+
+      // context.router.pushNamed(HomeRoute.name);
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Success')));
+    });
   }
 }

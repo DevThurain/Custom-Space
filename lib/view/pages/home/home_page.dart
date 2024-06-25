@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:photo_space/router/app_router.dart';
 import 'package:photo_space/state/auth/providers/auth_state_provider.dart';
 import 'package:photo_space/view/constants/app_colors.dart';
+import 'package:photo_space/view/pages/login/login_page.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
@@ -20,7 +22,10 @@ class HomePage extends StatelessWidget {
         actions: [
           Consumer(builder: (context, ref, child) {
             return IconButton(
-              onPressed: ref.read(authStateProvider.notifier).logOut,
+              onPressed: () async{
+                await ref.read(authStateProvider.notifier).logOut();
+                context.router.maybePop(true);
+              },
               icon: const Icon(Icons.logout),
             );
           })

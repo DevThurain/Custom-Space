@@ -20,7 +20,7 @@ void main() async {
   runApp(ProviderScope(child: MyApp()));
 }
 
-var appRouterProvider = Provider<AppRouter>((ref)=> AppRouter(authGuard: AuthGuard(ref: ref)));
+var appRouterProvider = Provider<AppRouter>((ref) => AppRouter(authGuard: AuthGuard(ref: ref)));
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
