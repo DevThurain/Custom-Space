@@ -22,9 +22,9 @@ class SvgIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        minimumSize: const MaterialStatePropertyAll(Size(210, 45)),
-        elevation: const MaterialStatePropertyAll(0),
-        shape: MaterialStatePropertyAll(
+        minimumSize: const WidgetStatePropertyAll(Size(210, 45)),
+        elevation: const WidgetStatePropertyAll(0),
+        shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
             side: BorderSide(color: AppColors.seedColor),

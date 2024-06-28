@@ -33,7 +33,9 @@ class LoginPage extends BasedPage {
             SvgIconButton(
               text: 'Sign In With Facebook',
               svgPath: 'assets/svgs/ic_facebook.svg',
-              onTap: () {},
+              onTap: () {
+                showLoadingDailog(context);
+              },
             ),
             SvgIconButton(
               text: 'Sign In With Google',
@@ -50,21 +52,11 @@ class LoginPage extends BasedPage {
 
   @override
   void buildListeners(BuildContext context, WidgetRef ref) {
-    ref.listen(loadingProvider, (_, isLoading) {
-      if (isLoading) {
-        showLoadingDailog(context);
-      } else {
-        hideLoadingDialog(context);
-      }
-    });
-
+    super.buildListeners(context, ref);
     ref.listen(isLoggedInProvider, (_, isLoggedIn) async {
       if (isLoggedIn) {
-        AutoRouter.of(context).push(const HomeRoute());
+        AutoRouter.of(context).replace(const HomeRoute());
       }
-
-      // context.router.pushNamed(HomeRoute.name);
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Success')));
     });
   }
 }

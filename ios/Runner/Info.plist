@@ -26,7 +26,20 @@
     <!-- fb auth end-->
 
 	<!-- google auth-->
-	
+	<key>GIDClientID</key>
+	<string>456232339408-6ka8ogb41ego8a6345g7rj18cvn0ak92.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
+				<string>com.googleusercontent.apps.456232339408-6ka8ogb41ego8a6345g7rj18cvn0ak92</string>
+			</array>
+		</dict>
+	</array>
 	<!-- google end-->
 
 
