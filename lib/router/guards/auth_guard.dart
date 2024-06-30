@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_space/router/app_router.dart';
 import 'package:photo_space/state/auth/providers/is_logged_in_provider.dart';
-import 'package:photo_space/state/auth/providers/user_id_provider.dart';
 
 class AuthGuard extends AutoRouteGuard {
   final ProviderRef<AppRouter> ref;
