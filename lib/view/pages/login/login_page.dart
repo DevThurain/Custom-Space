@@ -42,7 +42,6 @@ class LoginPage extends BasedPage {
               iconSpace: 20,
               onTap: ref.read(authStateProvider.notifier).loginWithGoogle,
             ),
-            AspectRatio(aspectRatio: aspectRatio)
           ],
         ),
       ),
