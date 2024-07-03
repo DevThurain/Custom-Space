@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_space/state/providers/loading_provider.dart';
+import 'package:photo_space/view/constants/app_colors.dart';
 
 abstract class BasedPage extends ConsumerWidget {
   BasedPage({super.key});
@@ -42,6 +43,7 @@ abstract class BasedPage extends ConsumerWidget {
           return Dialog(
             elevation: 10.0,
             key: _loadingKey,
+            backgroundColor: Theme.of(context).colorScheme.surface,
             child: const Padding(
               padding: EdgeInsets.all(32.0),
               child: Column(

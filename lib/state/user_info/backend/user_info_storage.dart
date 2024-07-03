@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter/material.dart';
 import 'package:photo_space/state/auth/typedefs/user_id.dart';
 import 'package:photo_space/state/constants/firebase_collection_name.dart';

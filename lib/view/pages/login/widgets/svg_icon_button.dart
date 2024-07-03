@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:photo_space/view/constants/app_colors.dart';
 
 class SvgIconButton extends StatelessWidget {
-  
   final String svgPath;
   final String text;
   final double iconSize;
@@ -22,6 +21,7 @@ class SvgIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
+        backgroundColor: WidgetStatePropertyAll(Theme.of(context).scaffoldBackgroundColor),
         minimumSize: const WidgetStatePropertyAll(Size(210, 45)),
         elevation: const WidgetStatePropertyAll(0),
         shape: WidgetStatePropertyAll(

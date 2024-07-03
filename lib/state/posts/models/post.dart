@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart' show immutable;
-import 'package:testingriverpod/state/image_upload/models/file_type.dart';
-import 'package:testingriverpod/state/post_settings/models/post_setting.dart';
-import 'package:testingriverpod/state/posts/models/post_key.dart';
+import 'package:photo_space/state/image_upload/models/file_type.dart';
+import 'package:photo_space/state/post_settings/models/post_setting.dart';
+import 'package:photo_space/state/posts/models/post_key.dart';
 
 @immutable
 class Post {

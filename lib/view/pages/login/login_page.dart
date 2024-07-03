@@ -4,11 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:photo_space/router/app_router.dart';
 import 'package:photo_space/state/auth/providers/auth_state_provider.dart';
 import 'package:photo_space/state/auth/providers/is_logged_in_provider.dart';
-import 'package:photo_space/state/providers/loading_provider.dart';
 import 'package:photo_space/view/constants/app_colors.dart';
 import 'package:photo_space/view/constants/strings.dart';
 import 'package:photo_space/view/pages/based/based_page.dart';
-import 'package:photo_space/view/pages/home/home_page.dart';
 import 'package:photo_space/view/pages/login/widgets/svg_icon_button.dart';
 
 @RoutePage()
@@ -43,7 +41,8 @@ class LoginPage extends BasedPage {
               iconSize: 25,
               iconSpace: 20,
               onTap: ref.read(authStateProvider.notifier).loginWithGoogle,
-            )
+            ),
+            AspectRatio(aspectRatio: aspectRatio)
           ],
         ),
       ),
